@@ -51,16 +51,18 @@ int eressea_read_orders(const char * filename) {
 }
 
 int eressea_export_json(const char * filename, int flags) {
-    FILE *F = fopen(filename, "w");
-    if (F) {
-        stream out = { 0 };
-        int err;
-        fstream_init(&out, F);
-        err = json_export(&out, flags);
-        fstream_done(&out);
-        return err;
+    if (filename) {
+        FILE *F = fopen(filename, "w");
+        if (F) {
+            stream out = { 0 };
+            int err;
+            fstream_init(&out, F);
+            err = json_export(&out, flags);
+            fstream_done(&out);
+            return err;
+        }
+        perror(filename);
     }
-    perror(filename);
     return -1;
 }
 
